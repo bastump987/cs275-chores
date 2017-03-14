@@ -1,0 +1,311 @@
+/* prinit auto-generated file */
+
+#main-area{
+	height: 100%;
+	width: 100%;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 0;
+}
+
+#header{
+	height: 10%;
+	width: 100%;
+
+	min-height: 64px;
+	min-width: 1042px;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 30;
+}
+
+#footer{
+	height: 10%;
+	width: 100%;
+
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 30;
+}
+
+#sidebar-area{
+	height: 100%;
+	width: 20%;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 20;
+}
+
+#task-area{
+	height: 100%;
+	width: 100%;
+
+	box-sizing: border-box;
+
+	padding-top: 16px;
+	padding-bottom: 16px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	position: absolute;
+	right: -16px;
+
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+#task-area-wrapper{
+	height: 90%;
+	width: 80%;
+
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	z-index: 10;
+
+	overflow: hidden;
+}
+
+#header-btn-area{
+	height: 64px; /* The height of a circular button */
+
+	display: flex;
+	align-items: center;
+
+	position: absolute;
+	bottom: -32px;
+	right: 16px;
+	z-index: 40;
+}
+
+#refresh-tasks{
+	transform: rotate(0deg);
+}
+#refresh-tasks:hover > .material-icons{
+	transform: rotate(360deg);
+	transition: transform cubic-bezier(0.4, 0.0, 0.2, 1) 0.5s;
+}
+
+.mt-btn-circle.header-action{
+	margin-right: 16px;
+	margin-left: 16px;
+}
+
+#app-title-area{
+	height: 100%;
+	width: auto;
+	padding-left: 32px;
+
+	display: flex;
+	align-items: center;
+
+	font-size: 42px;
+
+	background-color: rgba(0,0,0,0.1);
+}
+
+
+
+
+
+
+
+
+
+
+/* TASK CARD DIRECTIVE STYLES */
+
+.task-card{
+	height: 368px;
+	width: 800px;
+
+	max-height: 100px; /* expands to 400px when "active" */
+
+	border-radius: 2px;
+	margin: 16px;
+
+	overflow: hidden;
+
+	transition: all cubic-bezier(0.4, 0.0, 0.2, 1) 0.2s;
+}
+.task-card:hover{ /* manually apply shadow1 --> shadow2 */
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+	transition: all cubic-bezier(0.4, 0.0, 0.2, 1) 0.2s;
+}
+.task-card.active{
+	max-height: 400px;
+}
+
+.task-card-top-area{
+	width: 100%;
+	height: 100px;
+
+	display: flex;
+	align-items: center;
+
+	cursor: pointer;
+}
+.task-card-title-area{
+	width: 700px;
+	height: 100px;
+	max-height: 65px; /* expands to 100px when "active" */
+
+	display: flex;
+	align-items: center;
+
+	transition: all cubic-bezier(0.4, 0.0, 0.2, 1) 0.25s;
+}
+.task-card-title-area.active{
+	max-height: 100px;
+}
+.task-card-title{
+	font-weight: 500;
+	font-size: 32px;
+	padding-left: 16px;
+}
+.task-card-desc-preview-area{
+	width: 700px;
+	height: 35px;
+	max-height: 35px; /* contracts to 0 when "active" */
+
+	display: flex;
+	align-items: baseline;
+
+	position: relative;
+	top: 0;
+	z-index: 0;
+
+	overflow: hidden;
+
+	transition: all cubic-bezier(0.4, 0.0, 0.2, 1) 0.25s;
+}
+.task-card-desc-preview-area.active{
+	max-height: 0;
+	transition: all cubic-bezier(0.4, 0.0, 0.2, 1) 0.25s;
+}
+.task-card-desc-preview{
+	font-size: 16px;
+	padding-left: 16px;
+	white-space: nowrap;
+}
+.task-card-desc-preview-elipsis{
+	height: 19px;
+	position: absolute;
+	top: 0;
+	right: 10px;
+	box-shadow: 0 0 20px 12px white, 0 0 20px 12px white;
+}
+.task-card-price-area{
+	width: 100px;
+	height: 100px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	transition: all cubic-bezier(0.4, 0.0, 0.2, 1) 0.25s;
+}
+
+.task-card-bottom-area{
+	height: 268px;
+	width: inherit;
+
+	display: flex;
+	flex-direction: column;
+}
+.task-card-desc-area{
+	height: 236px;
+	width: 550px;
+	box-sizing: border-box;
+	padding-top: 16px;
+
+	display: flex;
+	flex-direction: column;
+
+	overflow: hidden;
+}
+.task-card-desc-label{
+	height: 24px;
+	width: inherit;
+	box-sizing: border-box;
+	padding-left: 16px;
+
+	display: flex;
+	align-items: flex-end;
+}
+.task-card-desc{
+	height: 212px;
+	width: inherit;
+	box-sizing: border-box;
+	padding: 16px;
+	padding-top: 4px;
+}
+.task-card-location-area{
+	height: 116px;
+	width: 250px;
+	box-sizing: border-box;
+	padding-top: 16px;
+}
+.task-card-location-label{
+	height: 24px;
+	width: inherit;
+	box-sizing: border-box;
+
+	display: flex;
+	align-items: flex-end;
+}
+.task-card-location{
+	height: 76px;
+	width: inherit;
+	box-sizing: border-box;
+	padding-top: 4px;
+	padding-right: 16px;
+	padding-bottom: 16px;
+}
+.task-card-time-area{
+	height: 64px;
+	width: 250px;
+}
+.task-card-time-label{
+	height: 24px;
+	width: inherit;
+
+	display: flex;
+	align-items: flex-end;
+}
+.task-card-time{
+	height: 40px;
+	width: inherit;
+	box-sizing: border-box;
+	padding-bottom: 16px;
+	padding-right: 16px;
+	padding-top: 4px;
+}
+.task-card-action-area{
+	height: 56px;
+	width: 250px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.task-card-poster-area{
+	height: 32px;
+	width: inherit;
+	box-sizing: border-box;
+	padding-left: 16px;
+	padding-bottom: 8px;
+
+
+	display: flex;
+	align-items: flex-end;
+}

@@ -1,0 +1,61 @@
+<div class="task-card shadow1 n000" data-ng-class="{'active':(ctrl.isActive)}">
+
+	<div class="task-card-top-area" data-ng-click="ctrl.toggleActive()">
+
+		<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100px; width: 700px;">
+			<div class="task-card-title-area" data-ng-class="(ctrl.isActive)?'active main500':''">
+				<span class="task-card-title text primary" data-ng-class="{'dark':(!ctrl.isActive)}">{{ task.title }}</span>
+			</div>
+			<div class="task-card-desc-preview-area" data-ng-class="(ctrl.isActive)?'active':''">
+				<span class="task-card-desc-preview text secondary" data-ng-class="{'dark':(!ctrl.isActive)}">{{ task.desc }}</span>
+				<div class="task-card-desc-preview-elipsis n000">
+					<span class="material-icons text secondary dark">more_horiz</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="task-card-price-area" data-ng-class="(ctrl.isActive)?'main600':'n100'">
+			<span class="text" style="font-weight: 500; font-size: 22px; transition: all ease 0.25s;" data-ng-class="(ctrl.isActive)?'primary':'dark secondary'">{{ task.price | currency }}</span>
+		</div>
+
+	</div>
+
+
+	<div class="task-card-bottom-area">
+
+		<div style="height: 236px; width: inherit; display: flex; align-items: center;">
+
+			<div class="task-card-desc-area">
+				<div class="task-card-desc-label"><span class="text disabled dark" style="display: flex; align-items: center;"><span class="material-icons" style="font-size: 20px;">description</span>&nbsp;Description</span></div>
+				<div class="task-card-desc">
+					<span class="text primary dark" style="line-height: 22px;">{{ task.desc }}</span>
+				</div>
+			</div>
+
+			<div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+				<div class="task-card-location-area">
+					<div class="task-card-location-label"><span class="text disabled dark" style="display: flex; align-items: center;"><span class="material-icons" style="font-size: 20px;">location_on</span>&nbsp;Location</span></div>
+					<div class="task-card-location">
+						<span class="text primary dark" style="line-height: 22px;">{{ task.location }}</span>
+					</div>
+				</div>
+				<div class="task-card-time-area">
+					<div class="task-card-time-label"><span class="text disabled dark" style="display: flex; align-items: center;"><span class="material-icons" style="font-size: 20px;">access_time</span>&nbsp;Time</span></div>
+					<div class="task-card-time"><!-- 'MMM d, y h:mm:ss a' -->
+						<span class="text primary dark" style="line-height: 22px;">{{ task.time | date : 'MMM d, y h:mm a' }}</span>
+					</div>
+				</div>
+				<div class="task-card-action-area">
+					<button class="mt-btn-raised accent200" data-ng-mouseover="ctrl.evalButton()" data-ng-click="ctrl.buttonAction()">
+						<span class="text primary" style="font-weight: 500; font-size: 16px;">{{ ctrl.button_text }}</span>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="task-card-poster-area">
+			<span class="text disabled dark" style="display: flex; align-items: center;"><span class="material-icons" style="font-size: 20px;">person</span>&nbsp;Posted by&nbsp;<span class="text secondary dark" style="font-weight: 500;">{{ task.poster_name }}</span>&nbsp;on&nbsp;<span class="text secondary dark" style="font-weight: 500;">{{ task.time | date }}</span></span>
+		</div>
+	</div>
+
+</div>

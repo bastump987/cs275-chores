@@ -1,0 +1,189 @@
+/* Material Design shadows.  Values taken from article by https://medium.com/@Florian on the subject. */
+
+.shadow1{
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+.shadow2{
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+.shadow3{
+	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+.shadow4{
+	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+.shadow5{
+	box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+
+
+/* Material Design colors */
+
+/* Current Main: Indigo */
+.main900{
+	background-color: #1a237e;
+}
+.main800{
+	background-color: #283593;
+}
+.main700{
+	background-color: #303f9f;
+}
+.main600{
+	background-color: #3949ab;
+}
+.main500{
+	background-color:  #3f51b5;
+}
+.main400{
+	background-color:  #5c6bc0;
+}
+.main300{
+	background-color:  #7986cb;
+}
+.main200{
+	background-color:  #9fa8da;
+}
+.main100{
+	background-color:  #c5cae9;
+}
+.main050{
+	background-color: #e8eaf6;
+}
+
+
+/* Current Accent: Green
+.accent700{
+	background-color: #00c853;
+}
+.accent400{
+	background-color: #00e676;
+}
+.accent200{
+	background-color: #69f0ae;
+}
+.accent100{
+	background-color: #b9f6ca;
+}
+*/
+
+
+/* Current Accent: Deep Orange
+.accent700{
+	background-color: #dd2c00;
+}
+.accent400{
+	background-color: #ff3d00;
+}
+.accent200{
+	background-color: #ff6e40;
+}
+.accent100{
+	background-color: #ff9e80;
+}
+*/
+
+
+/* Current Accent: Pink */
+.accent700{
+	background-color: #c51162;
+}
+.accent400{
+	background-color: #f50057;
+}
+.accent200{
+	background-color: #ff4081;
+}
+.accent100{
+	background-color: #ff80ab;
+}
+
+
+/* Light Neutrals */
+.n300{
+	background-color: #E0E0E0;
+}
+.n100{
+	background-color: #F5F5F5;
+}
+.n050{
+	background-color: #FAFAFA;
+}
+.n000{
+	background-color: #FFFFFF;
+}
+
+/* Dark Neutrals */
+.n999{
+	background-color: #000000;
+}
+.n900{
+	background-color: #212121;
+}
+.n950{
+	background-color: #303030;
+}
+.n800{
+	background-color: #424242;
+}
+
+
+/* Material Design text, light and dark */
+.text{
+	font-family: 'Roboto', sans-serif;
+}
+.text.primary{
+	color: rgba(255,255,255,1.0); /* 100% opacity */
+}
+.text.secondary{
+	color: rgba(255,255,255,0.70); /* 70% opacity */
+}
+.text.disabled{
+	color: rgba(255,255,255,0.50); /* 50% opacity */
+}
+.text.primary.dark{
+	color: rgba(0,0,0,0.84);       /* 84% opacity */
+}
+.text.secondary.dark{
+	color: rgba(0,0,0,0.54);       /* 54% opacity */
+}
+.text.disabled.dark{
+	color: rgba(0,0,0,0.38);       /* 38% opacity */
+}
+
+
+/* Buttons */
+.mt-btn-circle{
+	width: 64px;
+	height: 64px;
+	border: none;
+	border-radius: 50%;
+	cursor: pointer;
+	transition: all ease 0.2s;
+}
+.mt-btn-circle:hover{ /* (need to find more programatic way to do this): shadow2 --> shadow3 */
+	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+	transition: all cubic-bezier(0.4, 0.0, 0.2, 1) 0.2s;
+}
+
+.mt-btn-raised{
+	min-width: 88px;
+	height: 36px;
+	box-sizing: border-box;
+	padding-left: 16px;
+	padding-right: 16px;
+	border-radius: 2px;
+
+	border: none;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	transition: all cubic-bezier(0.4, 0.0, 0.2, 1) 0.2s;
+
+}
+.mt-btn-raised:hover{
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	transition: all cubic-bezier(0.4, 0.0, 0.2, 1) 0.2s;
+}
