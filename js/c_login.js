@@ -114,7 +114,6 @@ app.controller('login_ctrl', ['$scope', '$window', '$timeout', 'user_svc', funct
 	this.loginClick = function(){
 
 		var result = user_svc.authenticate(this.lg_username, this.lg_password);
-		result = true; // DB get rid of this after testing
 
 		if( result ){ // if login is successful ...
 			$window.location.href = this.dash_url; // ... change url to the dashboard
