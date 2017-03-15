@@ -23,16 +23,6 @@
 	z-index: 30;
 }
 
-#footer{
-	height: 10%;
-	width: 100%;
-
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	z-index: 30;
-}
-
 #sidebar-area{
 	height: 100%;
 	width: 20%;
@@ -216,7 +206,7 @@
 }
 
 .topbar-slider-label{
-	font-size: 40pt;
+	font-size: 36pt;
 	line-height: 100px;
 	text-align: center;
 }
@@ -324,6 +314,24 @@
 	max-height: 24px;
 	margin: 4px;
 	opacity: 1;
+}
+
+#footnotes{
+	position: fixed;
+	bottom: 8px;
+	left: 8px;
+
+	opacity: 0.35;
+
+	font-family: 'Roboto', sans-serif;
+	color: rgba(0,0,0,0.84);
+	font-size: 10pt;
+
+	transition: all cubic-bezier(0.4, 0.0, 0.2, 1) 0.2s;
+}
+#footnotes:hover{
+	opacity: 1;
+	font-size: 12pt;
 }
 /* LOGIN PAGE STYLES END */
 
