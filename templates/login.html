@@ -1,4 +1,68 @@
-<div>
-	This is the login template.  Click the link below to go to the dashboard.
+<div id="login-area" class="n050">
+
+	<!-- FLOATING TITLE -->
+	<div id="floating-title">
+		<span class="primary text dark" style="font-size: 70pt; font-weight: 500; display: flex; justify-content: center; align-items: center;">
+			<span>Chores</span>
+			<span class="material-icons" style="font-size: 70pt; font-weight: 500;">class</span>
+		</span>
+		<span class="secondary text dark" style="font-size: 18pt;">Get someone else to do it for you.</span>
+	</div>
+
+	<!-- LOGIN/REGISTER BOX -->
+	<div id="login-container" class="n000 shadow1">
+
+		<!-- TOPBAR -->
+		<div id="login-topbar" class="main500">
+			<div class="topbar-slider"  data-ng-click="login.loginTopbarClick()" data-ng-class="(login.activePanel == login.PANELS.login)?'active main500':'n800'">
+				<div class="topbar-slider-icon-area">
+					<span class="material-icons" style="font-size: 50pt; color: white;">account_box</span>
+				</div>
+				<div class="topbar-slider-label-area">
+					<span class="text primary topbar-slider-label">Sign In</span>
+				</div>
+			</div>
+
+			<div class="topbar-slider"  data-ng-click="login.registerTopbarClick()" data-ng-class="(login.activePanel == login.PANELS.register)?'active main500':'n800'">
+				<div class="topbar-slider-icon-area">
+					<span class="material-icons" style="font-size: 50pt; color: white;">mode_edit</span>
+				</div>
+				<div class="topbar-slider-label-area">
+					<span class="text primary topbar-slider-label">Register</span>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- INPUT AREA -->
+		<div id="input-area">
+
+			<!-- REGISTER PANEL -->
+			<div class="register-area" data-ng-class="(login.activePanel == login.PANELS.register)?'active':''">
+				<div class="message text primary dark">{{ login.register_message }}</div>
+				<form name="register_form" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+					<input class="mt-input wide" data-ng-model="login.rg_name" type="text" placeholder="Name" required/>
+					<input class="mt-input wide" data-ng-model="login.rg_phone" type="tel" placeholder="Phone Number" required/>
+					<input class="mt-input wide" data-ng-model="login.rg_email" type="email" placeholder="Email Address" required/>
+					<input class="mt-input wide" data-ng-model="login.rg_username" type="text" placeholder="Username" required/>
+					<input class="mt-input wide" data-ng-model="login.rg_password" type="password" placeholder="Password" required/>
+					<input class="mt-input wide" data-ng-model="login.rg_confirm" type="password" placeholder="Confirm Password" required/>
+					<button class="mt-btn-raised accent200 text primary" style="margin-top: 10px;" data-ng-click="login.registerClick()">REGISTER</button>
+				</form>
+			</div>
+
+			<!-- LOGIN PANEL -->
+			<div class="login-area" data-ng-class="(login.activePanel == login.PANELS.login)?'active':''">
+				<div class="welcome-message text primary dark">
+					Welcome back<span data-ng-show="(login.lg_username != '')">, {{ login.lg_username }}</span>.
+				</div>
+				<div class="login-error" data-ng-class="{'active':(login.login_error != '')}"><span class="text primary" style="color: red; font-size: 10pt;">{{ login.login_error }}</span></div>
+				<input class="mt-input wide" type="text" placeholder="Username" data-ng-model="login.lg_username"/>
+				<input class="mt-input wide" type="password" placeholder="Password" data-ng-model="login.lg_password"/>
+				<button class="mt-btn-raised accent200 text primary" style="margin-top: 6px;" data-ng-click="login.loginClick()">SIGN IN</button>
+			</div>
+		</div>
+
+	</div>
+
 </div>
-<a href="#/dash">DASHBOARD</a>

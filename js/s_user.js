@@ -26,6 +26,8 @@ app.service('user_svc', ['$http', function($http){
 											 response.email,
 											 response.username);
 
+				return true;
+
 			}else{
 				return false; // Return 'false', specifying to the controller that authentication failed
 			}

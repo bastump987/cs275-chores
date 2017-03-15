@@ -117,6 +117,218 @@
 
 
 
+/* LOGIN PAGE STYLES */
+#floating-title{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 200px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+#login-area{
+	height: 100%;
+	width: 100%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 0;
+}
+
+#login-container{
+	height: 500px;
+	width: 600px;
+
+	border-radius: 2px;
+	overflow: hidden;
+
+	position: relative;
+	top: 0;
+	z-index: 10;
+
+	transition: all cubic-bezier(0.4, 0.0, 0.2, 1) 0.2s;
+}
+#login-container:hover{
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+#login-topbar{
+	height: 100px;
+	width: inherit;
+
+	display: flex;
+	align-items: center;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 40;
+}
+
+.topbar-slider{
+	height: inherit;
+	width: 500px;
+	max-width: 100px;
+
+	cursor: pointer;
+	overflow: hidden;
+
+	position: relative;
+	top: 0;
+
+	transition: all cubic-bezier(0.4, 0.0, 0.2, 1) 0.2s;
+}
+
+.topbar-slider.active{
+	max-width: 500px;
+}
+
+.topbar-slider-icon-area{
+	height: 100px;
+	width: 100px;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.topbar-slider-label-area{
+	height: 100px;
+	width: 400px;
+
+	position: absolute;
+	top: 0;
+	left: 100px;
+}
+
+.topbar-slider-label{
+	font-size: 40pt;
+	line-height: 100px;
+	text-align: center;
+}
+
+#input-area{
+	height: 400px;
+	width: inherit;
+
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 20;
+
+	overflow: hidden;
+}
+
+.register-area{
+	height: 400px;
+	width: inherit;
+	max-height: 0;
+	opacity: 0;
+
+	position: relative;
+	top: 0;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+
+	overflow: hidden;
+
+	transition: all cubic-bezier(0.4, 0.0, 0.2, 1) 0.2s;
+}
+.register-area.active{
+	max-height: 400px;
+	opacity: 1;
+}
+.register-message{
+	height: 60px;
+	width: inherit;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.login-area{
+	height: 400px;
+	width: inherit;
+	opacity: 0;
+
+	position: relative;
+	top: 0;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+
+	overflow: hidden;
+
+	transition: all cubic-bezier(0.4, 0.0, 0.2, 1) 0.2s;
+}
+.login-area.active{
+	opacity: 1;
+}
+.message{
+	height: 60px;
+	width: inherit;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	text-align: center;
+}
+.welcome-message{
+	height: 60px;
+	width: inherit;
+	font-weight: 300;
+	font-size: 24pt;
+	text-align: center;
+}
+.login-error{
+	height: 24px;
+	max-height: 0;
+	margin: 0;
+	opacity: 0;
+	width: inherit;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	background-color: rgba(0,0,0,0);
+
+	transition: all cubic-bezier(0.4, 0.0, 0.2, 1) 0.2s;
+}
+.login-error.active{
+	max-height: 24px;
+	margin: 4px;
+	opacity: 1;
+}
+/* LOGIN PAGE STYLES END */
+
+
+
 
 
 
