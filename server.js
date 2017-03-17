@@ -30,7 +30,7 @@ con.connect(function(err){
 	if (err){
 		console.log("Connection with db failed"+err);
 	}else{
-		console.log("Database successfully connected"); 
+		console.log("Database successfully connected");
 	}
 
 });
@@ -42,22 +42,23 @@ app.get('/logout', function (req, res){
 });
 
 app.post('/login', function(req, res){
-	var username=req.data.username;
-	var pass=req.data.password;
+	var username=req.body.username;
+	var pass=req.body.password;
 
 	// try login after hasing the password.
-	var quere=`select * from users where username=${username} AND password = PASSWORD(${pass})`;
-	console.log()
+	//var quere=`select * from users where username=${username} AND password = PASSWORD(${pass})`;
+	var quere = "SELECT * FROM users WHERE username='" + username + "' AND password=PASSWORD('" + pass + "');";
+
 	con.query(quere, function(err, rows, fields){
 		if (err){
-			res.send("Sorry! cconnection to database failed.")
+			res.send(err);
 		}
 		else{
 			if (rows.length==1){
 				res.send(rows);
 			}
 			else{
-				res.send("false");
+				res.send(false);
 			}
 		}
 	});
@@ -102,7 +103,7 @@ app.post('/updatetask', function(req,res){
 	var status = req.data.status;
 	var price = req.data.price;
 
-	query=`update tasks set worker_id=${workerID},location=${location},title=${title},description=${desc},datetime=${datetime},poster_id=${posterID}, status=${status}, price=${price}  where ID=${id_task};`;
+	query=`update tasks set worker_id=${workerID},location=${loc},title=${title},description=${desc},datetime=${datetime},poster_id=${posterID}, status=${status}, price=${price}  where ID=${id_task};`;
 	console.log(query);
 
 	con.query(query, function(err, rows, fields){
@@ -119,29 +120,29 @@ app.post('/updatetask', function(req,res){
 
 app.post('/adduser', function(req, res){
 	res.header("Access-Control-Allow-Origin", "*");
-	var fname=req.data.first_name;
-	var lname=req.data.last_name;
-	var phone=req.data.phone;
-	var email=req.data.email;
-	var username= req.data.username;
-	var password = req.data.password;
+	var fname=req.body.first_name;
+	var lname=req.body.last_name;
+	var phone=req.body.phone;
+	var email=req.body.email;
+	var username= req.body.username;
+	var password = req.body.password;
 	// hash the password here
-	query=`INSERT INTO Users (first_name, last_name, phone, email, username, password) VALUES (${fname}, ${lname}, ${phone}, ${email}, ${username}, PASSWORD(${password}) );`;
-	console.log(query);
+	var query=`INSERT INTO users (first_name, last_name, phone, email, username, password) VALUES (\'${fname}\', \'${lname}\', ${phone}, \'${email}\', \'${username}\', PASSWORD(\'${password}\') );`;
 
 	con.query(query, function(err, rows, fields){
 		if (err){
 			console.log("Query Failed for add User");
+			res.send(err);
 		}
 		else{
-			res.send(rows);
+			res.send(true);
 		}
 	});
 });
 
 app.post('/deletetask', function(req, res){
 	res.header("Access-Control-Allow-Origin", "*");
-	
+
 	var id_task = req.data.taskid;
 	query=`delete from tasks where ID=${id_task}`;
 	console.log(query);

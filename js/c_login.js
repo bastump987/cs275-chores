@@ -87,21 +87,29 @@ app.controller('login_ctrl', ['$scope', '$window', '$timeout', 'user_svc', funct
 			var last_name  = name_parts[1] || "";
 
 			// attempt to register the user
-			var result = user_svc.register(this.rg_username,
-										   this.rg_password,
-										   first_name,
-										   last_name,
-										   this.rg_email,
-										   this.rg_phone);
 
-			if( result === true ){ // on success, clear inputs and show success message
+			var callback = function( result ){
 
-				this.register_message = "Registration successful!  You can now sign in.";
-				this.clearRgFields();
+				if( result ){ // on success, clear inputs and show success message
 
-			}else{ // on failure, show the error message from the server
-				this.register_message = result;
-			}
+					this.register_message = "Registration successful!  You can now sign in.";
+					this.clearRgFields();
+
+				}else{ // on failure, show the error message from the server
+					this.register_message = result;
+				}
+
+			}.bind(this);
+
+			user_svc.register(this.rg_username,
+							  this.rg_password,
+							  first_name,
+							  last_name,
+							  this.rg_email,
+							  this.rg_phone,
+							  callback);
+
+
 		}else{
 			if( fr ){
 				if( !ph ){ message = "Please use a valid phone number."; }
@@ -113,20 +121,24 @@ app.controller('login_ctrl', ['$scope', '$window', '$timeout', 'user_svc', funct
 
 	this.loginClick = function(){
 
-		var result = user_svc.authenticate(this.lg_username, this.lg_password);
+		user_svc.authenticate(this.lg_username, this.lg_password, function(result){
 
-		if( result ){ // if login is successful ...
-			$window.location.href = this.dash_url; // ... change url to the dashboard
-		}else{
+			if( result ){ // if login is successful ...
+				$window.location.href = this.dash_url; // ... change url to the dashboard
+			}else{
 
-			// show an error message to the user
-			this.login_error = "Login failed, invalid username or password.";
+				// show an error message to the user
+				this.login_error = "Login failed, invalid username or password.";
 
-			// after 5 seconds of displaying the message, reset it
-			$timeout(function(){
-				this.login_error = "";
-			}.bind(this), 5000);
-		}
+				// after 5 seconds of displaying the message, reset it
+				$timeout(function(){
+					this.login_error = "";
+				}.bind(this), 5000);
+			}
+
+		}.bind(this));
+
+
 	};
 
 }]);
