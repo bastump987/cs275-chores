@@ -1,4 +1,4 @@
-app.controller('taskCard_ctrl', ['$scope', function($scope){
+app.controller('taskCard_ctrl', ['$scope', 'user_svc', function($scope, user_svc){
 
 	this.isActive = true;
 
@@ -8,6 +8,7 @@ app.controller('taskCard_ctrl', ['$scope', function($scope){
 
 	this.button_text = "";
 
+
 	this.toggleEdit = function(){
 		this.isEditing = !this.isEditing;
 	};
@@ -16,12 +17,16 @@ app.controller('taskCard_ctrl', ['$scope', function($scope){
 		this.isActive = !this.isActive;
 	};
 
+	this.editClick = function(){
+		this.toggleEdit();
+	};
+
 
 	$scope.$watch(function(){ return this.isEditing; }.bind(this), function(newValue, oldValue){
 
 		if( newValue === false && oldValue === false ){
 			this.button_text = "EDIT";
-			this.buttonAction = this.toggleEdit;
+			this.buttonAction = this.editClick;
 		}
 
 		if( newValue !== oldValue ){

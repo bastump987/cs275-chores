@@ -34,7 +34,10 @@ app.service('task_svc', ['$http', function($http){
 		}).then(function(response){
 
 			if( response ){ // if 'response' does not eval to some falsey value (like null or false or 0 etc.)
-				return response;
+
+				// clear 'this.task_list', then:
+				// use the JSON in 'response' to construct Task objects, and add them to 'this.task_list'
+
 			}else{
 				return false; // if there was something wrong with the response, return false to signify the request failed
 			}
@@ -56,19 +59,26 @@ app.service('task_svc', ['$http', function($http){
 		// method: 'POST'
 
 		$http({ // wrap below stuff in "data" object
-			title: title,
-			description: desc,
-			location: location,
-			datetime: time,
-			poster_id: poster_id,
-			price: price,
-			status: 0
+			method: 'POST',
+			url: '/addtask',
+			data: {
+				title: title,
+				description: desc,
+				location: location,
+				datetime: time,
+				poster_id: poster_id,
+				price: price,
+				status: 0
+			}
 		}).then(function(response){
 
 			if( response ){ // expects "true" on success
 
+				// same idea as update task (below).  Just return true, and taskCard_ctrl will set edit mode to false
+
 			}else{ // expects "false" on failure
 
+				// alert the user that the task couldn't be added
 			}
 		});
 	};
@@ -94,8 +104,12 @@ app.service('task_svc', ['$http', function($http){
 
 			if( response ){ // expects "true" on success
 
+				// Now that the details are successfully changed, just return true.
+				// The function that calls this (from the taskCard_ctrl) will just set edit mode back to false
+
 			}else{ // expects "false" on failure
 
+				// alert the user that the update failed
 			}
 		});
 	};
@@ -104,8 +118,23 @@ app.service('task_svc', ['$http', function($http){
 	this.deleteTask = function(id){
 
 		$http({ // url: '/deletetask' 'taskid'
+			method: 'POST',
+			url: '/deletetask',
+			data: {
+				taskid: id
+			}
+		}).then(function(response){
 
-		}).then(function(response){});
+			if( response ){ // expects true on success
+
+				// find the task in this.task_list by its id, and remove it
+
+			}else{ // expects false on failure
+
+				// give the user some message that the deletion failed
+			}
+
+		});
 	};
 
 
