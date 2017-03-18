@@ -67,16 +67,16 @@ app.post('/login', function(req, res){
 
 app.post('/addtask', function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
-	var title=req.data.title;
-	var desc=req.data.description;
-	var loc=req.data.location;
-	var datetime=req.data.datetime;
-	var posterID=req.data.poster_id;
-	var status = req.data.status;
-	var price = req.data.price;
+	var title=req.body.title;
+	var desc=req.body.description;
+	var loc=req.body.location;
+	var datetime=req.body.datetime;
+	var posterID=req.body.poster_id;
+	var status = req.body.status;
+	var price = req.body.price;
 	var t=time_now.format('YYYY-MM-DD HH:mm:ss');
 	console.log(t);
-	query=`INSERT into tasks (title, description, location, datetime, poster_id, worker_id, status, price, posted_date_time) VALUES (${title},${desc}, ${loc}, ${datetime}, ${posterID}, NULL, ${status}, ${price}, ${t});`;
+	query=`INSERT into tasks (title, description, location, datetime, poster_id, worker_id, status, price, posted_date_time) VALUES (\'${title}\',\'${desc}\', \'${loc}\', \'${datetime}\', ${posterID}, NULL, ${status}, \'${price}\', \'${t}\');`;
 	console.log(query);
 
 	con.query(query, function(err, rows, fields){
@@ -85,7 +85,7 @@ app.post('/addtask', function(req,res){
 		}
 		else{
 			// return true on success and false on fail
-			res.send(rows);
+			res.send(true);
 		}
 	});
 
@@ -93,17 +93,17 @@ app.post('/addtask', function(req,res){
 
 app.post('/updatetask', function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
-	var id_task= req.data.taskid;
-	var title=req.data.title;
-	var desc=req.data.description;
-	var loc=req.data.location;
-	var datetime=req.data.datetime;
-	var posterID=req.data.poster_id;
-	var workerID = req.data.worker_id; // if null then make it a null in database
-	var status = req.data.status;
-	var price = req.data.price;
+	var id_task= req.body.taskid;
+	var title=req.body.title;
+	var desc=req.body.description;
+	var loc=req.body.location;
+	var datetime=req.body.datetime;
+	var posterID=req.body.poster_id;
+	var workerID = req.body.worker_id; // if null then make it a null in database
+	var status = req.body.status;
+	var price = req.body.price;
 
-	query=`update tasks set worker_id=${workerID},location=${loc},title=${title},description=${desc},datetime=${datetime},poster_id=${posterID}, status=${status}, price=${price}  where ID=${id_task};`;
+	query=`update tasks set worker_id=${workerID},location=\'${loc}\',title=\'${title}\',description=\'${desc}\',datetime=\'${datetime}\',poster_id=${posterID}, status=${status}, price=${price}  where ID=${id_task};`;
 	console.log(query);
 
 	con.query(query, function(err, rows, fields){
@@ -112,7 +112,7 @@ app.post('/updatetask', function(req,res){
 		}
 		else{
 			// return true on success and false on fail
-			res.send(rows);
+			res.send(true);
 		}
 	});
 
@@ -143,7 +143,7 @@ app.post('/adduser', function(req, res){
 app.post('/deletetask', function(req, res){
 	res.header("Access-Control-Allow-Origin", "*");
 
-	var id_task = req.data.taskid;
+	var id_task = req.body.taskid;
 	query=`delete from tasks where ID=${id_task}`;
 	console.log(query);
 	if (id_task==null){
