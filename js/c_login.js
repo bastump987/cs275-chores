@@ -124,6 +124,12 @@ app.controller('login_ctrl', ['$scope', '$window', '$timeout', 'user_svc', funct
 		user_svc.authenticate(this.lg_username, this.lg_password, function(result){
 
 			if( result ){ // if login is successful ...
+
+				// save current user full_name and id in sessionStorage
+				sessionStorage.clear();
+				sessionStorage.setItem('user_id', user_svc.current_user.id);
+				sessionStorage.setItem('user_full_name', user_svc.current_user.full_name);
+
 				$window.location.href = this.dash_url; // ... change url to the dashboard
 			}else{
 

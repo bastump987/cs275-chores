@@ -34,10 +34,30 @@ app.service('task_svc', ['$http', function($http){
 				// clear 'this.task_list', then:
 				// use the JSON in 'response' to construct Task objects, and add them to 'this.task_list'
 
-				console.log( response.data );
+				var results = response.data;
+
+				for( var i=0; i<results.length; i++){
+					var c         = results[i];
+					var id        = c.id;
+					var title     = c.title;
+					var desc      = c.description;
+					var price     = c.price;
+					var loc       = c.location;
+					var time      = new Date( c.datetime );
+					var p_id      = c.poster_id;
+					var p_name    = c.first_name + " " + c.last_name;
+					var w_id      = c.worker_id;
+					var status    = this.statusToNum( c.status );
+					var timestamp = new Date( c.posted_date_time );
+					var w_name    = ""; // not used anyway
+
+					var t = new Task(id, title, desc, price, loc, time, p_id, p_name, w_id, w_name, status, timestamp);
+
+					this.task_list.push( t );
+				}
 
 			}
-		});
+		}.bind(this));
 
 
 		/*
@@ -55,6 +75,10 @@ app.service('task_svc', ['$http', function($http){
 
 	this.addTask = function(title, desc, price, location, time, poster_id, callback){
 
+		var time_str  = this.dateToDBFormat( new Date(time) );
+		var price_num = Number.parseInt( price );
+		console.log(price_num);
+
 		$http({
 			method: 'POST',
 			url: '/addtask',
@@ -62,9 +86,9 @@ app.service('task_svc', ['$http', function($http){
 				title: title,
 				description: desc,
 				location: location,
-				datetime: time,
+				datetime: time_str,
 				poster_id: poster_id,
-				price: price,
+				price: price_num,
 				status: 1
 			}
 		}).then(function(response){
@@ -98,8 +122,8 @@ app.service('task_svc', ['$http', function($http){
 			}
 		}).then(function(response){
 
-			// expects to have the task returned on success
-			// expects "false" on failure
+			// expects to have true returned on success
+			// expects false on failure
 
 			callback(response.data);
 
@@ -153,6 +177,26 @@ app.service('task_svc', ['$http', function($http){
 
 		// return YYYY-MM-DD HH:MM:SS formatted date string
 		return date_str;
+	};
+
+
+	this.statusToNum = function(status){
+
+		switch( status  ){
+
+			case "created":
+				return 1;
+
+			case "accepted":
+				return 2;
+
+			case "pending":
+				return 3;
+
+			case "completed":
+				return 4;
+
+		}
 	};
 
 

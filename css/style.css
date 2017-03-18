@@ -27,10 +27,16 @@
 	height: 100%;
 	width: 20%;
 
+	min-height: 740px;
+	min-width: 310px;
+
 	position: absolute;
 	top: 0;
 	left: 0;
 	z-index: 20;
+
+	display: flex;
+	justify-content: center;
 }
 
 #task-area{
@@ -533,3 +539,58 @@
 	display: flex;
 	align-items: flex-end;
 }
+/* TASK CARD STYLES END */
+
+
+
+
+/* USER INFO AREA STYLES */
+#user-info-area{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+
+	width: 80%;
+}
+
+.user-name-circle{
+	height: 100px;
+	width: 100px;
+	border-radius: 50%;
+	overflow: hidden;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.user-details-area{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+
+	width: 100%;
+	margin-top: 8px;
+	margin-bottom: 8px;
+
+	border-radius: 4px;
+	overflow: hidden;
+}
+.user-details-label-area{
+	width: inherit;
+
+	display: flex;
+	align-items: center;
+
+	padding: 8px;
+	box-sizing: border-box;
+}
+.user-detail{
+	width: inherit;
+
+	padding: 8px;
+	box-sizing: border-box;
+}
+/* USER INFO AREA STYLES END */

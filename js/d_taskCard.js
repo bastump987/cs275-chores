@@ -1,16 +1,32 @@
 app.controller('taskCard_ctrl', ['$scope', 'user_svc', 'task_svc', function($scope, user_svc, task_svc){
 
-	this.isActive = false;
+	this.isActive     = false;
+	this.isEditing    = false;
+	this.showDelete   = false; // set by a $watch on user_svc.current_user.  True to show delete button
 
-	this.isEditing = false;
-
-	this.showDelete = false; // set by a $watch on user_svc.current_user.  True to show delete button
-
-	this.pendingEdit = {}; // will contain info on the pending edit of the task.  set to a copy of $scope.task when "edit" is clicked
+	this.pendingEdit  = {}; // will contain info on the pending edit of the task.  set to a copy of $scope.task when "edit" is clicked
 
 	this.buttonAction = function(){}; // this function will be set by a $watcher
+	this.button_text  = "";
 
-	this.button_text = "";
+	this.filterFunc   = function(){
+
+		var w_id   = $scope.task.worker_id;
+		var p_id   = $scope.task.poster_id;
+		var u_id   = user_svc.current_user.id;
+		var status = $scope.task.status;
+
+		if( status > 1 ){
+
+			if( w_id === u_id || p_id === u_id ){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return true;
+		}
+	};
 
 
 	this.toggleActive = function(){
@@ -31,25 +47,104 @@ app.controller('taskCard_ctrl', ['$scope', 'user_svc', 'task_svc', function($sco
 		// do an AJAX request to the server to update the task
 		// --> changes status to "pending" (3) if user_svc.current_user is the worker
 		// --> changes status to "completed" (4) if user_svc.current_user is the poster
+
+		var t = $scope.task; // shorthand
+
+		var new_status = 0; // not a valid status
+		var uid        = user_svc.current_user.id;
+		if( uid === t.poster_id ){
+			new_status = 4;
+		}else if(uid === t.worker_id ){
+			new_status = 3;
+		}
+
+		// callback for AJAX request
+		var callback = function(data){
+
+			// expects a row (representing a task) on success, and false on failure
+			if( data !== false ){
+
+				// update front-end (database will already be synced, only the status changed)
+				$scope.task.status = new_status;
+				if( new_status === 3 ){
+					this.button_text  = "PENDING";
+					this.buttonAction = function(){};
+				}else if( new_status === 4 ){
+					this.button_text  = "DONE";
+					this.buttonAction = function(){};
+				}
+			}
+		};
+
+		// make the AJAX request
+		task_svc.updateTask(t.id, t.title, t.desc, t.price, t.location, t.time, t.poster_id, t.worker_id, new_status, callback);
 	};
 
 
 	this.confirmClick = function(){
 
 		// validate fields first
-
 		// then make AJAX request to update task
 
 		var valid = this.validateEdit();
 
 		if( valid ){
 
-			task_svc.updateTask();
+			var callback = function(data){
+
+				if( data === true ){
+
+					$scope.task       = this.pendingEdit;
+
+					this.pendingEdit  = {};
+					this.isEditing    = false;
+
+					this.button_text  = "EDIT";
+					this.buttonAction = this.editClick;
+
+				}else{
+
+					this.isEditing   = false;
+					this.pendingEdit = {};
+
+					alert("Couldn't sync changes with the database.  Try again later.");
+				}
+
+			}.bind(this);
+
+			var t = this.pendingEdit;
+			task_svc.updateTask(t.id, t.title, t.desc, t.price, t.location, new Date(t.time), t.poster_id, t.worker_id, t.status, callback);
 
 		}else{
 			alert("Oops... \n\n All fields must be filled out, and be sure to look at the hints in the input fields for length or formatting requirements.");
 		}
 
+	};
+
+
+	this.postClick = function(){
+
+		var valid = this.validateEdit();
+
+		if( valid ){
+
+			var callback = function(data){
+
+				this.pendingEdit.id = data.insertId;
+
+				$scope.task = angular.copy( this.pendingEdit );
+
+				this.pendingEdit  = {};
+				this.isEditing    = false;
+
+				this.button_text  = "EDIT";
+				this.buttonAction = this.editClick;
+
+			}.bind(this);
+
+			var t  = this.pendingEdit;
+			task_svc.addTask(t.title, t.desc, t.price, t.location, t.time, user_svc.current_user.id, callback);
+		}
 	};
 
 
@@ -62,6 +157,28 @@ app.controller('taskCard_ctrl', ['$scope', 'user_svc', 'task_svc', function($sco
 		//  - status: should be "accepted" (2)
 
 		// upon a successful request, switch button state to "mark as done"
+
+		var confirmation = confirm("Do you want to accept " + $scope.task.poster_name +"'s task, '" + $scope.task.title + "'?");
+		if( confirmation ){
+
+			var callback = function(data){
+
+				if( data === true ){
+
+					$scope.task.status    = 2; // set status to accepted
+					$scope.task.worker_id = user_svc.current_user.id;
+
+					this.button_text  = "MARK AS DONE";
+					this.buttonAction = this.markDoneClick;
+
+				}else{
+					alert("ERROR: Couldn't accept task.");
+				}
+			}.bind(this);
+
+			var t = $scope.task;
+			task_svc.updateTask(t.id, t.title, t.desc, t.price, t.location, t.time, t.poster_id, user_svc.current_user.id, 2, callback);
+		}
 	};
 
 
@@ -86,7 +203,21 @@ app.controller('taskCard_ctrl', ['$scope', 'user_svc', 'task_svc', function($sco
 
 		}else{ // if the id is a number, the task exists on the database and we have to make an AJAX request to delete it
 
-			console.log(false);
+			var confirmation = confirm("Delete '" + $scope.task.title + "' from the task listings?");
+
+			if( confirmation ){
+				task_svc.deleteTask($scope.task.id, function(data){
+
+					if( data === true ){
+						var i = task_svc.task_list.indexOf( $scope.task );
+						task_svc.task_list.splice(i, 1);
+					}else{
+						alert("Couldn't delete task.");
+					}
+
+				});
+			}
+
 
 		}
 
@@ -116,7 +247,8 @@ app.controller('taskCard_ctrl', ['$scope', 'user_svc', 'task_svc', function($sco
 
 		// Price cannot be negative
 		var valid_price = true;
-		if( t.price !== null && t.price < 0 ){
+		var price_num   = Number.parseInt( t.price );
+		if( isNaN(price_num) || price_num < 0 ){
 			valid_price = false;
 		}
 
@@ -156,10 +288,11 @@ app.controller('taskCard_ctrl', ['$scope', 'user_svc', 'task_svc', function($sco
 
 		if( c_user.id === $scope.task.poster_id ){
 
-			if( $scope.task.status <= 1 ){ // if the task has NOT been accepted yet ...
+			if( $scope.task.status < 2 ){ // if the task has NOT been accepted yet ...
 				this.button_text  = "EDIT";
 				this.buttonAction = this.editClick;
-			}else if( $scope.task.status >= 2 ){
+			}else if( $scope.task.status === 2 || $scope.task.status === 3 ){
+				console.log("should be MARK AS DONE"); // DB
 				this.button_text  = "MARK AS DONE";
 				this.buttonAction = this.markDoneClick;
 			}
@@ -167,17 +300,26 @@ app.controller('taskCard_ctrl', ['$scope', 'user_svc', 'task_svc', function($sco
 
 		}else if( c_user.id === $scope.task.worker_id ){
 
-			this.button_text  = "MARK AS DONE";
-			this.buttonAction = this.markDoneClick;
+			if( $scope.task.status === 2 ){
+				this.button_text  = "MARK AS DONE";
+				this.buttonAction = this.markDoneClick;
+			}else if( $scope.task.status === 3 ){
+				this.button_text  = "PENDING";
+				this.buttonAction = function(){};
+			}
+
 
 		}else{
 
-			this.button_text  = "ACCEPT TASK";
-			this.buttonAction = this.acceptClick;
+			// no need to handle anything else.  Accepted tasks will be hidden from non-participating users
+			if( $scope.task.status < 2 ){
+				this.button_text  = "ACCEPT TASK";
+				this.buttonAction = this.acceptClick;
+			}
 		}
 
 
-		if( c_user.id === $scope.task.poster_id && $scope.task.status <= 2 ){
+		if( c_user.id === $scope.task.poster_id && $scope.task.status < 2 ){
 			this.showDelete = true;
 		}else{
 			this.showDelete = false;
@@ -204,6 +346,15 @@ app.controller('taskCard_ctrl', ['$scope', 'user_svc', 'task_svc', function($sco
 		if( newValue === 3 ){ // if status is "pending"
 
 			// make button just show "PENDING", action is nothing
+			if( user_svc.current_user.id !== $scope.task.poster_id ){
+				this.button_text  = "PENDING";
+				this.buttonAction = function(){};
+			}
+		}
+
+		if( newValue === 4 ){
+			this.button_text  = "DONE";
+			this.buttonAction = function(){};
 		}
 
 	}.bind(this));
@@ -218,7 +369,7 @@ app.controller('taskCard_ctrl', ['$scope', 'user_svc', 'task_svc', function($sco
 				this.isActive     = true;
 				this.isEditing    = true;
 				this.button_text  = "POST";
-				this.buttonAction = this.confirmClick;
+				this.buttonAction = this.postClick;
 			}
 		}
 

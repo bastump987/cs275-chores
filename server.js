@@ -10,6 +10,34 @@ var time_format=require('moment');
 
 var time_now=time_format();
 
+function dateToDBFormat(date){
+		// takes a JavaScript Date object and converts it to the format expected by the database, which is:
+		// 'YYYY-MM-DD HH:MM:SS'
+
+		var date_str = "";
+
+		// extract details from date object
+		var year     = date.getFullYear().toString();
+		var month    = (date.getMonth() + 1)
+		var day      = date.getDate();
+		var hours    = date.getHours();
+		var minutes  = date.getMinutes();
+		var seconds  = date.getSeconds();
+
+		// pad the fields with leading zeroes if necessary
+		if( month   < 10 ){ month   = "0" + month.toString();   }else{ month.toString();   }
+		if( day     < 10 ){ day     = "0" + day.toString();     }else{ day.toString();     }
+		if( hours   < 10 ){ hours   = "0" + hours.toString();   }else{ hours.toString();   }
+		if( minutes < 10 ){ minutes = "0" + minutes.toString(); }else{ minutes.toString(); }
+		if( seconds < 10 ){ seconds = "0" + seconds.toString(); }else{ seconds.toString(); }
+
+		// construct date string
+		date_str = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+
+		// return YYYY-MM-DD HH:MM:SS formatted date string
+		return date_str;
+}
+
 app.use(express.static("."));
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
@@ -23,8 +51,8 @@ app.use(session({
 var con=mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
-	password: '15sept1997',
-	database: 'cs275_project'
+	password: '@4207pulse2581',
+	database: 'cs275db'
 });
 con.connect(function(err){
 	if (err){
@@ -65,6 +93,50 @@ app.post('/login', function(req, res){
 });
 
 
+app.post('/userdetails', function(req, res){
+
+	res.header("Access-Control-Allow-Origin", "*");
+
+	var id = req.body.id;
+
+	var query = "SELECT * FROM users WHERE id=" + id.toString() + ";";
+	con.query(query, function(error, rows, fields){
+
+		if( error ){
+			console.log(error);
+			res.send(false);
+		}else{
+			res.send(rows);
+		}
+	});
+});
+
+
+app.post('/taskcounts', function(req, res){
+
+	res.header("Access-Control-Allow-Origin", "*");
+
+	var id = req.body.id.toString();
+
+	// SELECT COUNT(title) FROM tasks WHERE poster_id=X
+	// SELECT COUNT(title) FROM tasks WHERE worker_id=X
+
+	var query = "SELECT COUNT(title) FROM tasks WHERE poster_id=" + id + " ";
+	query    += "UNION ";
+	query    += "SELECT COUNT(title) FROM tasks WHERE worker_id=" + id + " AND status='completed';";
+
+	con.query(query, function(error, rows, fields){
+
+		if( error ){
+			console.log(error);
+			res.send(false);
+		}else{
+			res.send(rows);
+		}
+	});
+});
+
+
 app.post('/addtask', function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
 	var title=req.body.title;
@@ -74,18 +146,18 @@ app.post('/addtask', function(req,res){
 	var posterID=req.body.poster_id;
 	var status = req.body.status;
 	var price = req.body.price;
-	var t=time_now.format('YYYY-MM-DD HH:mm:ss');
-	console.log(t);
-	query=`INSERT into tasks (title, description, location, datetime, poster_id, worker_id, status, price, posted_date_time) VALUES (\'${title}\',\'${desc}\', \'${loc}\', \'${datetime}\', ${posterID}, NULL, ${status}, \'${price}\', \'${t}\');`;
-	console.log(query);
+	var t=dateToDBFormat( new Date() );
+
+	var query=`INSERT into tasks (title, description, location, datetime, poster_id, worker_id, status, price, posted_date_time) VALUES (\'${title}\',\'${desc}\', \'${loc}\', \'${datetime}\', ${posterID}, NULL, ${status}, ${price}, \'${t}\');`;
 
 	con.query(query, function(err, rows, fields){
 		if (err){
 			console.log("Query Failed for add task");
+			res.send(false);
 		}
 		else{
 			// return true on success and false on fail
-			res.send(true);
+			res.send(rows);
 		}
 	});
 
@@ -103,15 +175,26 @@ app.post('/updatetask', function(req,res){
 	var status = req.body.status;
 	var price = req.body.price;
 
-	query=`update tasks set worker_id=${workerID},location=\'${loc}\',title=\'${title}\',description=\'${desc}\',datetime=\'${datetime}\',poster_id=${posterID}, status=${status}, price=${price}  where ID=${id_task};`;
-	console.log(query);
+	var query=`update tasks set worker_id=${workerID},location=\'${loc}\',title=\'${title}\',description=\'${desc}\',datetime=\'${datetime}\',poster_id=${posterID}, status=${status}, price=${price}  where ID=${id_task};`;
 
 	con.query(query, function(err, rows, fields){
 		if (err){
 			console.log("Quesry Failed for add task");
+			res.send(false);
 		}
 		else{
-			// return true on success and false on fail
+
+			if( status === 4 ){
+				con.query("UPDATE users SET balance = balance + " + price + " WHERE id=" + workerID + ";", function(error, rows, fields){
+
+					if( error ){
+						console.log(error);
+					}else{
+						console.log(rows);
+					}
+				});
+			}
+
 			res.send(true);
 		}
 	});
@@ -144,20 +227,20 @@ app.post('/deletetask', function(req, res){
 	res.header("Access-Control-Allow-Origin", "*");
 
 	var id_task = req.body.taskid;
-	query=`delete from tasks where ID=${id_task}`;
-	console.log(query);
+	var query=`delete from tasks where ID=${id_task}`;
 	if (id_task==null){
-		res.send("No ID found!");
-		return;
+		console.log("No ID found!");
+		res.send(false);
 	}
 
 	con.query(query, function(err, rows, fields){
 		if (err){
 			console.log("Query Failed for add task");
+			res.send(false);
 		}
 		else{
 			// return true if success and false if fail
-			res.send(rows);
+			res.send(true);
 		}
 	});
 });
@@ -169,8 +252,7 @@ app.post('/tasks', function(req, res){
 	// 	// do nothing  else limit the query.
 	// }
 
-	query="select * from tasks order by posted_date_time desc;";
-	console.log(query);
+	var query="select tasks.id, tasks.title, tasks.description, tasks.price, tasks.location, tasks.datetime, tasks.posted_date_time, tasks.status, tasks.poster_id, tasks.worker_id, users.first_name, users.last_name from tasks, users WHERE users.id=tasks.poster_id ORDER BY posted_date_time desc;";
 
 	con.query(query, function(err, rows, fields){
 		if (err){
@@ -181,6 +263,7 @@ app.post('/tasks', function(req, res){
 		}
 	});
 });
+
 //GRANT ALL ON cs275_project.* TO brianuser@'2601:47:4000:1062:6db0:1a73:95c4:113a' IDENTIFIED BY 'mypass123';
 //update tasks set worker_id=1,location='location example',title='title',description='description example',datetime="datetime var",poster_id=2, status=2, price=20  where ID=1;
 app.listen(8080,function(){

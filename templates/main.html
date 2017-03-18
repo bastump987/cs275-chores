@@ -1,10 +1,10 @@
 <!-- NOTE:  For now, ids are temporary and correspond to the original design document. -->
 
-<div id="main-area">
+<div id="main-area" data-ng-init="main.init()">
 
 	<!-- Area containing all main-view (dashboard) components.  z-index: 0, 100% height & width -->
 
-	<div id="header" class="main800 shadow2">
+	<div id="header" class="main500 shadow2">
 
 		<div id="app-title-area">
 			<span id="app-title-bold" class="text primary" style="font-weight: 500;">Chores</span><span class="material-icons" style="font-size: 42px; font-weight: 500; color: white;">class</span>
@@ -22,8 +22,64 @@
 		</div>
 	</div>
 
-	<div id="sidebar-area" class="main500 shadow2">
+	<div id="sidebar-area" class="n000 shadow2" data-ng-controller="sidebar_ctrl as sidebar" data-ng-init="sidebar.refresh()">
 		<!-- area for all sidebar elements. z-index: 20, height: 100%, width: approx 20%, might need to be played w/. -->
+		<div id="user-info-area">
+
+			<!-- INTIALS -->
+			<div class="user-name-circle accent200 shadow1" style="margin-bottom: 24px;">
+				<span class="text primary" style="font-size: 30pt;">{{ sidebar.initials }}</span>
+			</div>
+
+			<!-- FULL NAME -->
+			<span class="text primary dark" style="font-size: 22pt; margin-bottom: 32px;">{{ sidebar.fullname }}</span>
+
+			<!-- USERNAME -->
+			<div class="user-details-area">
+				<div class="user-details-label-area n800">
+					<span class="material-icons secondary text" style="font-size: 16pt;">account_circle</span>&nbsp;&nbsp;<span class="text secondary" style="font-size: 16pt;">Username</span>
+				</div>
+				<div class="user-detail n300">
+					<span class="text secondary dark">{{ sidebar.username }}</span>
+				</div>
+			</div>
+
+			<!-- MONEY -->
+			<div class="user-details-area">
+				<div class="user-details-label-area n800">
+					<span class="material-icons secondary text" style="font-size: 16pt;">attach_money</span>&nbsp;&nbsp;<span class="text secondary" style="font-size: 16pt;">Total Money Earned</span>
+				</div>
+				<div class="user-detail n300">
+					<span class="text secondary dark">{{ sidebar.balance | currency }}</span>
+				</div>
+			</div>
+
+			<!-- TASKS POSTED -->
+			<div class="user-details-area">
+				<div class="user-details-label-area n800">
+					<span class="material-icons secondary text" style="font-size: 16pt;">assignment_ind</span>&nbsp;&nbsp;<span class="text secondary" style="font-size: 16pt;">Tasks Posted</span>
+				</div>
+				<div class="user-detail n300">
+					<span class="text secondary dark">{{ sidebar.posted }}</span>
+				</div>
+			</div>
+
+			<!-- TASKS COMPLETED -->
+			<div class="user-details-area">
+				<div class="user-details-label-area n800">
+					<span class="material-icons secondary text" style="font-size: 16pt;">assignment_turned_in</span>&nbsp;&nbsp;<span class="text secondary" style="font-size: 16pt;">Tasks Completed</span>
+				</div>
+				<div class="user-detail n300">
+					<span class="text secondary dark">{{ sidebar.completed }}</span>
+				</div>
+			</div>
+
+			<!-- LOGOUT BUTTON -->
+			<button class="mt-btn-raised accent200 shadow1" style="margin-top: 16px;" data-ng-click="sidebar.logout()">
+				<span class="text primary" style="font-weight: 500;">LOGOUT</span>
+			</button>
+
+		</div>
 	</div>
 
 	<div id="task-area-wrapper" class="n050">

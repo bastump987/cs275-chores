@@ -18,20 +18,12 @@ app.config(['$routeProvider', function($routeProvider){
 
 /*  JS Object Prototypes */
 
-var TASK_STATUS = {
-	created:   0, // the initial state of a task, set right after its creation on the client-side.
-	active:    1, // the state when a task is visible to other users.  Should probably be set by the server-side right before adding to the database for the first time.
-	accepted:  2, // the state when someone has clicked "accept" on a task.  Will be set by the server side when request from "Accept" button is valid.  Accepted tasks will only be shown to the worker and the poster.
-	completed: 3  // the state when a task is marked as "done" by the worker.  Will be set by the server side when either the poster or the worker clicks "Mark Complete" button (or something like that)
-};
-Object.freeze(TASK_STATUS); // makes the 'TASK_STATUS' global object (and its properties) immutable
-
 
 function Task(id, title, desc, price, location, time, poster_id, poster_name, worker_id, worker_name, status, timestamp){
-	this.id          = id || null;        // the id of the task in the DB (primary key)
+	this.id          = id || null;          // the id of the task in the DB (primary key)
 	this.title       = title || null;       // the heading of this posting
 	this.desc        = desc || null;        // a description of what the worker needs to do to complete the task
-	this.price       = price || null;       // money that will be awarded to the worker upon completion
+	this.price       = price || 0;          // money that will be awarded to the worker upon completion
 	this.location    = location || null;    // the place where the task takes place (if any)
 	this.time        = time || null;        // the time at which the task should be done (if any)
 	this.poster_id   = poster_id || null;   // the id (from the DB) of the user who posted this task
@@ -43,13 +35,14 @@ function Task(id, title, desc, price, location, time, poster_id, poster_name, wo
 }
 
 
-function User(id, first, last, phone, email, username){
+function User(id, first, last, phone, email, username, balance){
 	this.id        = id;       // the id (from the DB) of the user (primary key)
 	this.first     = first;    // first name of user
 	this.last      = last;     // last name of user
 	this.phone     = phone;    // user's phone number
 	this.email     = email;    // user's email
 	this.username  = username; // username
+	this.balance   = balance;  // the money the user has earned
 
 	this.full_name = first + " " + last; // nice shortcut variable for displaying full name
 }
