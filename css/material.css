@@ -208,7 +208,7 @@
 
 	margin: 6px;
 
-	background-color: #E0E0E0;
+	background-color: rgba(180,180,180,0.25);
 
 	transition: all cubic-bezier(0.4, 0.0, 0.2, 1) 0.2s;
 }
@@ -227,4 +227,17 @@
 }
 .mt-input.wide{
 	min-width: 300px;
+}
+
+.mt-input.light{
+	color: rgba(255,255,255,0.75);
+}
+.mt-input.light:focus{
+	border-bottom: 3px solid #ff4081;
+	color: white;
+}
+
+.mt-input.editarea{
+	resize: none;
+	margin: 0;
 }

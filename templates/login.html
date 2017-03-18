@@ -61,7 +61,7 @@
 				</div>
 				<div class="login-error" data-ng-class="{'active':(login.login_error != '')}"><span class="text primary" style="color: red; font-size: 10pt;">{{ login.login_error }}</span></div>
 				<input class="mt-input wide" type="text" placeholder="Username" data-ng-model="login.lg_username"/>
-				<input class="mt-input wide" type="password" placeholder="Password" data-ng-model="login.lg_password"/>
+				<input class="mt-input wide" type="password" placeholder="Password" data-ng-model="login.lg_password" data-ng-keydown="login.passwordKeydown($event.keyCode);"/>
 				<button class="mt-btn-raised accent200 text primary" style="margin-top: 6px;" data-ng-click="login.loginClick()">SIGN IN</button>
 			</div>
 		</div>

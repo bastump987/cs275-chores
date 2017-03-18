@@ -353,6 +353,10 @@
 	border-radius: 2px;
 	margin: 16px;
 
+	position: relative;
+	top: 0;
+	z-index: 10;
+
 	overflow: hidden;
 
 	transition: all cubic-bezier(0.4, 0.0, 0.2, 1) 0.2s;

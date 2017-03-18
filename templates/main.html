@@ -12,7 +12,7 @@
 
 		<div id="header-btn-area">
 
-			<button id="add-task" class="mt-btn-circle header-action accent200 shadow2" data-ng-click="">
+			<button id="add-task" class="mt-btn-circle header-action accent200 shadow2" data-ng-click="main.newTask()">
 				<span class="material-icons" style="color: white; font-size: 32px;">add</span>
 			</button>
 
@@ -28,8 +28,9 @@
 
 	<div id="task-area-wrapper" class="n050">
 		<div id="task-area" class="n050" data-ng-controller="tasks_ctrl as tasks">
-			<!-- area for all task cards.  z-index: 10, height: 100%, width: whatever is left after sidebar has been decided. -->
-			<div data-ng-repeat="task in tasks.task_list track by $index">
+
+			<!-- Interesting note: since we track by task.id, and newly created tasks don't have a value for it, you can't add more than one task at a time due to angular complaining about "dupes"! Kinda hacky, but neat. -->
+			<div data-ng-repeat="task in tasks.task_list track by task.id">
 				<task-card task="task"></task-card>
 			</div>
 		</div>

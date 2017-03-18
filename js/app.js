@@ -27,18 +27,19 @@ var TASK_STATUS = {
 Object.freeze(TASK_STATUS); // makes the 'TASK_STATUS' global object (and its properties) immutable
 
 
-function Task(id, title, desc, price, location, time, poster_id, poster_name, worker_id, worker_name, status){
-	this.id          = id;          // the id of the task in the DB (primary key)
-	this.title       = title;       // the heading of this posting
-	this.desc        = desc;        // a description of what the worker needs to do to complete the task
-	this.price       = price;       // money that will be awarded to the worker upon completion
-	this.location    = location;    // the place where the task takes place (if any)
-	this.time        = time;        // the time at which the task should be done (if any)
-	this.poster_id   = poster_id;   // the id (from the DB) of the user who posted this task
-	this.poster_name = poster_name; // the full name (first&last) of the user who posted this task
-	this.worker_id   = worker_id;   // the id (from the DB) of the user who will complete this task
-	this.worker_name = worker_name; // the full name (first&last) of the user who will complete this task
-	this.status      = status;      // a state from the 'TASK_STATUS' global object (enum), representing the current completion status of the task
+function Task(id, title, desc, price, location, time, poster_id, poster_name, worker_id, worker_name, status, timestamp){
+	this.id          = id || null;        // the id of the task in the DB (primary key)
+	this.title       = title || null;       // the heading of this posting
+	this.desc        = desc || null;        // a description of what the worker needs to do to complete the task
+	this.price       = price || null;       // money that will be awarded to the worker upon completion
+	this.location    = location || null;    // the place where the task takes place (if any)
+	this.time        = time || null;        // the time at which the task should be done (if any)
+	this.poster_id   = poster_id || null;   // the id (from the DB) of the user who posted this task
+	this.poster_name = poster_name || null; // the full name (first&last) of the user who posted this task
+	this.worker_id   = worker_id || null;   // the id (from the DB) of the user who will complete this task
+	this.worker_name = worker_name || null; // the full name (first&last) of the user who will complete this task
+	this.status      = status || null;      // a state from the 'TASK_STATUS' global object (enum), representing the current completion status of the task
+	this.timestamp   = timestamp || null;   // the time the task was first created
 }
 
 

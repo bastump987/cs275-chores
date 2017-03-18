@@ -1,10 +1,14 @@
 <div class="task-card shadow1 n000" data-ng-class="{'active':(ctrl.isActive)}">
 
-	<div class="task-card-top-area" data-ng-click="ctrl.toggleActive()">
+	<div class="task-card-top-area" data-ng-click="ctrl.topareaClick()">
 
 		<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100px; width: 700px;">
 			<div class="task-card-title-area" data-ng-class="(ctrl.isActive)?'active main500':''">
-				<span class="task-card-title text primary" data-ng-class="{'dark':(!ctrl.isActive)}">{{ task.title }}</span>
+				<!-- TITLE -->
+				<span class="task-card-title text primary" data-ng-show="!ctrl.isEditing" data-ng-class="{'dark':(!ctrl.isActive)}">{{ task.title }}</span>
+
+				<!-- TITLE, EDITING -->
+				<input class="mt-input light" style="margin: 0; margin-left: 16px; width: 668px; font-size: 18pt;" data-ng-show="ctrl.isEditing" data-ng-model="ctrl.pendingEdit.title" placeholder="Title - short and to the point (8 - 40 characters)."/>
 			</div>
 			<div class="task-card-desc-preview-area" data-ng-class="(ctrl.isActive)?'active':''">
 				<span class="task-card-desc-preview text secondary" data-ng-class="{'dark':(!ctrl.isActive)}">{{ task.desc }}</span>
@@ -15,7 +19,11 @@
 		</div>
 
 		<div class="task-card-price-area" data-ng-class="(ctrl.isActive)?'main600':'n100'">
-			<span class="text" style="font-weight: 500; font-size: 22px; transition: all ease 0.25s;" data-ng-class="(ctrl.isActive)?'primary':'dark secondary'">{{ task.price | currency }}</span>
+			<!-- PRICE -->
+			<span class="text" style="font-weight: 500; font-size: 22px; transition: all ease 0.25s;" data-ng-show="!ctrl.isEditing" data-ng-class="(ctrl.isActive)?'primary':'dark secondary'">{{ task.price | currency }}</span>
+
+			<!-- PRICE, EDITING -->
+			<input class="mt-input light" style="height: 45px; width: 68px; font-size: 14pt; margin: 0; padding-top: 0; padding-bottom: 0; padding-right: 0;" type="number" data-ng-model="ctrl.pendingEdit.price" data-ng-show="ctrl.isEditing" placeholder="$"/>
 		</div>
 
 	</div>
@@ -27,8 +35,13 @@
 
 			<div class="task-card-desc-area">
 				<div class="task-card-desc-label"><span class="text disabled dark" style="display: flex; align-items: center;"><span class="material-icons" style="font-size: 20px;">description</span>&nbsp;Description</span></div>
+
 				<div class="task-card-desc">
-					<span class="text primary dark" style="line-height: 22px;">{{ task.desc }}</span>
+					<!-- DESCRIPTION -->
+					<span class="text primary dark" style="line-height: 22px;" data-ng-show="!ctrl.isEditing">{{ task.desc }}</span>
+
+					<!-- DESCRIPTION, EDITING -->
+					<textarea class="mt-input editarea" style="height: 175px; width: 500px; line-height: 22px;" data-ng-model="ctrl.pendingEdit.desc" placeholder="Explain to the worker what you need them to do.  Don't use only a couple words - that's what the title is for! (20 - 460 characters)" data-ng-show="ctrl.isEditing"></textarea>
 				</div>
 			</div>
 
@@ -36,25 +49,39 @@
 				<div class="task-card-location-area">
 					<div class="task-card-location-label"><span class="text disabled dark" style="display: flex; align-items: center;"><span class="material-icons" style="font-size: 20px;">location_on</span>&nbsp;Location</span></div>
 					<div class="task-card-location">
-						<span class="text primary dark" style="line-height: 22px;">{{ task.location }}</span>
+						<!-- LOCATION -->
+						<span class="text primary dark" style="line-height: 22px;" data-ng-show="!ctrl.isEditing">{{ task.location }}</span>
+
+						<!-- LOCATION, EDITING -->
+						<textarea class="mt-input editarea" style="line-height: 22px; height: 56px; width: 230px;" data-ng-model="ctrl.pendingEdit.location" placeholder="Address or general location" data-ng-show="ctrl.isEditing"></textarea>
 					</div>
 				</div>
 				<div class="task-card-time-area">
 					<div class="task-card-time-label"><span class="text disabled dark" style="display: flex; align-items: center;"><span class="material-icons" style="font-size: 20px;">access_time</span>&nbsp;Time</span></div>
 					<div class="task-card-time"><!-- 'MMM d, y h:mm:ss a' -->
-						<span class="text primary dark" style="line-height: 22px;">{{ task.time | date : 'MMM d, y h:mm a' }}</span>
+						<!-- TIME -->
+						<span class="text primary dark" style="line-height: 22px;" data-ng-show="!ctrl.isEditing">{{ task.time | date : 'MMM d, y h:mm a' }}</span>
+
+						<!-- TIME, EDITING -->
+						<input class="mt-input editarea" style="height: 30px; width: 230px; padding-top: 0; padding-bottom: 0;" type="text" data-ng-model="ctrl.pendingEdit.time" placeholder="mm/dd/yy  hh:mm  suffix" data-ng-show="ctrl.isEditing"/>
 					</div>
 				</div>
 				<div class="task-card-action-area">
-					<button class="mt-btn-raised accent200" data-ng-mouseover="ctrl.evalButton()" data-ng-click="ctrl.buttonAction()">
+					<button class="mt-btn-raised accent200" data-ng-click="ctrl.buttonAction()">
 						<span class="text primary" style="font-weight: 500; font-size: 16px;">{{ ctrl.button_text }}</span>
+					</button>
+
+					<!-- DELETE BUTTON -->
+					<button class="mt-btn-raised accent200" style="min-width: 0; width: 36px; margin-left: 10px;" data-ng-click="ctrl.deleteClick()" data-ng-show="ctrl.showDelete">
+						<span class="text primary" style="font-size: 16px;"><span class="material-icons">delete_forever</span></span>
 					</button>
 				</div>
 			</div>
 		</div>
 
 		<div class="task-card-poster-area">
-			<span class="text disabled dark" style="display: flex; align-items: center;"><span class="material-icons" style="font-size: 20px;">person</span>&nbsp;Posted by&nbsp;<span class="text secondary dark" style="font-weight: 500;">{{ task.poster_name }}</span>&nbsp;on&nbsp;<span class="text secondary dark" style="font-weight: 500;">{{ task.time | date }}</span></span>
+			<span class="text disabled dark" style="display: flex; align-items: center;" data-ng-show="!ctrl.isEditing"><span class="material-icons" style="font-size: 20px;">person</span>&nbsp;Posted by&nbsp;<span class="text secondary dark" style="font-weight: 500;">{{ task.poster_name }}</span>&nbsp;on&nbsp;<span class="text secondary dark" style="font-weight: 500;">{{ task.timestamp | date : 'MMM d, y h:mm a' }}</span></span>
+			<span class="text disabled dark" style="display: flex; align-items: center;" data-ng-show="ctrl.isEditing"><span class="material-icons" style="font-size: 20px;">person</span>&nbsp;Posting as&nbsp;<span class="text secondary dark" style="font-weight: 500;">{{ ctrl.pendingEdit.poster_name }}</span></span>
 		</div>
 	</div>
 

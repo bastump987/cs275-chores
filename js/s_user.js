@@ -19,12 +19,12 @@ app.service('user_svc', ['$http', function($http){
 
 			if( response.data ){ // on success, some json representation of a User object will be returned
 
-				this.current_user = new User(response.id,
-											 response.first_name,
-											 response.last_name,
-											 response.phone,
-											 response.email,
-											 response.username);
+				this.current_user = new User(response.data[0].ID,
+											 response.data[0].first_name,
+											 response.data[0].last_name,
+											 response.data[0].phone,
+											 response.data[0].email,
+											 response.data[0].username);
 
 				callback( true );
 
@@ -57,6 +57,7 @@ app.service('user_svc', ['$http', function($http){
 			// if it's true, the user is successfully registered
 
 			callback( response );
+
 		});
 	};
 }]);

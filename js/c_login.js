@@ -141,4 +141,12 @@ app.controller('login_ctrl', ['$scope', '$window', '$timeout', 'user_svc', funct
 
 	};
 
+
+	this.passwordKeydown = function(keyCode){
+
+		if( keyCode === 13 ){ // "ENTER"
+			this.loginClick();
+		}
+	};
+
 }]);
