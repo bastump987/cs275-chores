@@ -101,7 +101,7 @@
 
 			<!-- Interesting note: since we track by task.id, and newly created tasks don't have a value for it, you can't add more than one task at a time due to angular complaining about "dupes"! Kinda hacky, but neat. -->
 			<div>
-				<task-card task="task" data-ng-repeat="task in tasks.task_list | filter:main.filter_search | filter:main.filterTasks track by task.id"></task-card>
+				<task-card task="task" style="position: relative; top: 0;" data-ng-repeat="task in tasks.task_list | filter:main.filter_search | filter:main.filterTasks track by task.id"></task-card>
 			</div>
 		</div>
 	</div>

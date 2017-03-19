@@ -32,6 +32,68 @@ app.controller('taskCard_ctrl', ['$scope', 'user_svc', 'task_svc', function($sco
 	};
 
 
+	this.showNotification = function(){
+
+		if( $scope.task.status > 1 ){
+			return true;
+		}else{
+			return false;
+		}
+	};
+
+
+	this.notificationHeading = function(){
+
+		switch($scope.task.status){
+
+			case 2:
+				return "Task Accepted";
+
+			case 3:
+				return "Completion Pending";
+
+			case 4:
+				return "Task Completed";
+
+		}
+	};
+
+
+	this.notificationText = function(){
+
+		if( user_svc.current_user.id === $scope.task.poster_id ){ // POSTER
+
+			switch($scope.task.status){
+
+				case 2:
+					return "Your task has been accepted by " + this.worker_name + ".";
+
+				case 3:
+					return (this.worker_name + " says they have completed your task.  Mark the task as done to confirm.");
+
+				case 4:
+					return "Your task has been completed by " + this.worker_name + ".";
+
+			}
+
+		}else if( user_svc.current_user.id === $scope.task.worker_id ){ // WORKER
+
+			switch($scope.task.status){
+
+				case 2:
+					return "You've accepted " + this.poster_name + "'s task.";
+
+				case 3:
+					return "You've marked " + this.poster_name + "'s task as done.  When they confirm this, you will be paid for your work.";
+
+				case 4:
+					return "You completed " + this.poster_name + "'s task.";
+
+			}
+		}
+	};
+
+
 	this.toggleActive = function(){
 		this.isActive = !this.isActive;
 	};
@@ -449,7 +511,7 @@ app.directive('taskCard', [function(){
 	return {
 		restrict: 'E',
 		scope: {
-			task: '=' /* a reference to a Task object */
+			task: '=',       // a reference to a Task object
 		},
 		templateUrl: 'templates/taskCard.html',
 		controller: 'taskCard_ctrl',

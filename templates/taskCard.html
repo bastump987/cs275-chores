@@ -1,7 +1,18 @@
+<div style="position: relative;">
+
+<!-- STATUS NOTIFICATION -->
+<div class="notification-area shadow1" data-ng-show="ctrl.showNotification()" data-ng-if="ctrl.filterFunc()">
+	<div class="notification-label-area main500">
+		<span class="material-icons text primary" style="font-size: 14pt;">announcement</span>&nbsp;&nbsp;<span class="text primary" style="font-size: 12pt;">{{ ctrl.notificationHeading() }}</span>
+	</div>
+	<div class="notification n000">
+		<span class="text secondary dark" style="font-size: 12pt;">{{ ctrl.notificationText() }}</span>
+	</div>
+</div>
+
 <div class="task-card shadow1 n000" data-ng-class="{'active':(ctrl.isActive)}" data-ng-if="ctrl.filterFunc()">
 
 	<div class="task-card-top-area" data-ng-click="ctrl.topareaClick()">
-
 
 		<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100px; width: 700px;">
 			<div class="task-card-title-area" data-ng-class="(ctrl.isActive)?'active main500':''">
@@ -85,5 +96,8 @@
 			<span class="text disabled dark" style="display: flex; align-items: center;" data-ng-show="ctrl.isEditing"><span class="material-icons" style="font-size: 20px;">person</span>&nbsp;Posting as&nbsp;<span class="text secondary dark" style="font-weight: 500;">{{ ctrl.pendingEdit.poster_name }}</span></span>
 		</div>
 	</div>
+
+</div>
+
 
 </div>

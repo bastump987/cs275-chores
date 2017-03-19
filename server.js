@@ -221,8 +221,6 @@ app.post('/updatetask', function(req,res){
 
 					if( error ){
 						console.log(error);
-					}else{
-						console.log(rows);
 					}
 				});
 			}
