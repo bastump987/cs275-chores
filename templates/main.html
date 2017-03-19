@@ -11,7 +11,17 @@
 		</div>
 
 		<div id="options-area">
+			<div class="filter-option" data-ng-click="main.filterButtonClick(main.FILTERSTATES.ALL)" data-ng-class="{'active':(main.isFilterState(main.FILTERSTATES.ALL))}">
+				<span class="text noselect" style="font-size: 16pt;" data-ng-class="(main.isFilterState(main.FILTERSTATES.ALL))?'primary':'disabled'">ALL TASKS</span>
+			</div>
+			<div class="filter-option" data-ng-click="main.filterButtonClick(main.FILTERSTATES.POSTED)" data-ng-class="(main.isFilterState(main.FILTERSTATES.POSTED)?'active':'')">
+				<span class="text noselect" style="font-size: 16pt;"data-ng-class="(main.isFilterState(main.FILTERSTATES.POSTED))?'primary':'disabled'">MY POSTS</span>
+			</div>
+			<div class="filter-option" data-ng-click="main.filterButtonClick(main.FILTERSTATES.ACCEPTED)" data-ng-class="(main.isFilterState(main.FILTERSTATES.ACCEPTED)?'active':'')">
+				<span class="text noselect" style="font-size: 16pt;"data-ng-class="(main.isFilterState(main.FILTERSTATES.ACCEPTED))?'primary':'disabled'">MY ACCEPTED TASKS</span>
+			</div>
 
+			<input class="mt-input wide light" type="text" placeholder="Seach task feed..." data-ng-model="main.filter_search"/>
 		</div>
 
 		<div id="header-btn-area">
@@ -90,8 +100,8 @@
 		<div id="task-area" class="n050" data-ng-controller="tasks_ctrl as tasks">
 
 			<!-- Interesting note: since we track by task.id, and newly created tasks don't have a value for it, you can't add more than one task at a time due to angular complaining about "dupes"! Kinda hacky, but neat. -->
-			<div data-ng-repeat="task in tasks.task_list track by task.id">
-				<task-card task="task"></task-card>
+			<div>
+				<task-card task="task" data-ng-repeat="task in tasks.task_list | filter:main.filter_search | filter:main.filterTasks track by task.id"></task-card>
 			</div>
 		</div>
 	</div>

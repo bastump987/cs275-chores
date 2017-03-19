@@ -1,5 +1,8 @@
 app.controller('taskCard_ctrl', ['$scope', 'user_svc', 'task_svc', function($scope, user_svc, task_svc){
 
+	this.poster_name  = "";
+	this.worker_name  = "";
+
 	this.isActive     = false;
 	this.isEditing    = false;
 	this.showDelete   = false; // set by a $watch on user_svc.current_user.  True to show delete button
@@ -336,7 +339,17 @@ app.controller('taskCard_ctrl', ['$scope', 'user_svc', 'task_svc', function($sco
 	$scope.$watch(function(){ return this.isEditing; }.bind(this), function(newValue, oldValue){
 
 		if( newValue === false && oldValue === false ){ // this happens when the task card is initialized
+
 			this.makeEditCopy();
+
+			var callback = function(data){
+
+				this.poster_name = data[0].poster || "";
+				this.worker_name = data[0].worker || "";
+
+			}.bind(this);
+
+			task_svc.getNames($scope.task.poster_id, $scope.task.worker_id, callback);
 		}
 
 	}.bind(this));

@@ -1,5 +1,18 @@
 /* prinit auto-generated file */
 
+.noselect {
+	cursor: inherit;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+
+
 #main-area{
 	height: 100%;
 	width: 100%;
@@ -15,7 +28,7 @@
 	width: 100%;
 
 	min-height: 64px;
-	min-width: 1042px;
+	min-width: 1300px;
 
 	position: absolute;
 	top: 0;
@@ -100,7 +113,7 @@
 	height: 100%;
 	width: 350px;
 	padding-left: 32px;
-	margin-right: 64px;
+	margin-right: 16px;
 
 	display: flex;
 	align-items: center;
@@ -602,10 +615,40 @@
 /* OPTIONS AREA (HEADER) STYLES */
 #options-area{
 	height: 100%;
-	width: 900px;
+
 	display: flex;
 	justify-content: center;
 	align-items: center;
+
 	float: left;
+}
+.filter-option{
+	height: 36px;
+	width:  auto;
+
+	cursor: pointer;
+
+	box-sizing: border-box;
+	border-radius: 2px;
+	border: none;
+
+	padding-left:   8px;
+	padding-right:  8px;
+	padding-top:    4px;
+	padding-bottom: 4px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	margin: 16px;
+
+	transition: all cubic-bezier(0.4, 0.0, 0.2, 1) 0.2s;
+}
+.filter-option:hover{
+	background-color: rgba(255,255,255,0.1);
+}
+.filter-option.active{
+	border-bottom: 3px solid #ff4081;
 }
 /* OPTIONS AREA (HEADER) STYLES END */

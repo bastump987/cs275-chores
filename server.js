@@ -112,6 +112,41 @@ app.post('/userdetails', function(req, res){
 });
 
 
+app.post('/names', function(req, res){
+
+	res.header("Access-Control-Allow-Origin", "*");
+
+	var poster_id = req.body.poster_id;
+	var worker_id = req.body.worker_id;
+
+	var query = "SELECT ";
+
+	if( poster_id !== null || poster_id !== undefined ){
+		query += "(SELECT first_name FROM users WHERE id=" + poster_id + ") AS poster";
+	}
+
+	if( worker_id !== null || worker_id !== undefined ){
+
+		if( query.length > 7 ){
+			query += ", ";
+		}
+		query += "(SELECT first_name FROM users WHERE id=" + worker_id + ") AS worker";
+	}
+
+	query += ";";
+
+	con.query(query, function(error, rows, fields){
+
+		if( error ){
+			console.log(error);
+			res.send(false);
+		}else{
+			res.send(rows);
+		}
+	});
+});
+
+
 app.post('/taskcounts', function(req, res){
 
 	res.header("Access-Control-Allow-Origin", "*");

@@ -2,6 +2,10 @@ app.service('task_svc', ['$http', 'user_svc', function($http, user_svc){
 
 	this.task_list = []; // stores results of latest function call
 
+	this.clearTasks = function(){
+		this.task_list = [];
+	};
+
 	this.getAllTasks = function(limit){
 		/*
 			Makes an AJAX request to retrieve an array of JSON objects,
@@ -151,6 +155,21 @@ app.service('task_svc', ['$http', 'user_svc', function($http, user_svc){
 			}
 			callback(response.data);
 
+		});
+	};
+
+
+	this.getNames = function(poster_id, worker_id, callback){
+
+		$http({
+			method: 'POST',
+			url: '/names',
+			data: {
+				poster_id: poster_id,
+				worker_id: worker_id
+			}
+		}).then(function(response){
+			callback(response.data);
 		});
 	};
 

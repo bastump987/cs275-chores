@@ -1,6 +1,7 @@
 app.controller('main_ctrl', ['$scope', '$window', 'task_svc', 'user_svc', function($scope, $window, task_svc, user_svc){
 
 	this.refreshTasks = function(){
+		task_svc.clearTasks();
 		task_svc.getAllTasks();
 	};
 
@@ -30,7 +31,40 @@ app.controller('main_ctrl', ['$scope', '$window', 'task_svc', 'user_svc', functi
 	};
 
 
+	// --- FILTER OPTIONS -------------------------
+	this.FILTERSTATES = {
+		ALL: 0,
+		POSTED: 1,
+		ACCEPTED: 2
+	};
+	Object.freeze(this.FILTERSTATES);
+
+	this.filter_state = null;
+
+	this.filterButtonClick = function(state){
+		this.filter_state = state;
+	};
+
+	this.isFilterState = function(state){
+		return ( this.filter_state === state );
+	};
+
+	this.filterTasks = function(task){
+
+		if( this.filter_state === this.FILTERSTATES.ALL ){
+			return true;
+		}else if( this.filter_state === this.FILTERSTATES.POSTED ){
+			return (task.poster_id === user_svc.current_user.id );
+		}else if( this.filter_state === this.FILTERSTATES.ACCEPTED ){
+			return (task.worker_id === user_svc.current_user.id );
+		}
+
+	}.bind(this);
+	// --------------------------------------------
+
+
 	this.init = function(){
+		this.filter_state = this.FILTERSTATES.ALL;
 		this.refreshTasks();
 		user_svc.getTaskCounts();
 	};
