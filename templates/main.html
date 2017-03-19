@@ -4,10 +4,14 @@
 
 	<!-- Area containing all main-view (dashboard) components.  z-index: 0, 100% height & width -->
 
-	<div id="header" class="main500 shadow2">
+	<div id="header" class="main700 shadow2">
 
 		<div id="app-title-area">
 			<span id="app-title-bold" class="text primary" style="font-weight: 500;">Chores</span><span class="material-icons" style="font-size: 42px; font-weight: 500; color: white;">class</span>
+		</div>
+
+		<div id="options-area">
+
 		</div>
 
 		<div id="header-btn-area">
@@ -40,7 +44,7 @@
 					<span class="material-icons secondary text" style="font-size: 16pt;">account_circle</span>&nbsp;&nbsp;<span class="text secondary" style="font-size: 16pt;">Username</span>
 				</div>
 				<div class="user-detail n300">
-					<span class="text secondary dark">{{ sidebar.username }}</span>
+					<span class="text secondary dark" style="font-size: 14pt;">{{ sidebar.username }}</span>
 				</div>
 			</div>
 
@@ -50,7 +54,7 @@
 					<span class="material-icons secondary text" style="font-size: 16pt;">attach_money</span>&nbsp;&nbsp;<span class="text secondary" style="font-size: 16pt;">Total Money Earned</span>
 				</div>
 				<div class="user-detail n300">
-					<span class="text secondary dark">{{ sidebar.balance | currency }}</span>
+					<span class="text secondary dark" style="font-size: 14pt;">{{ sidebar.balance | currency }}</span>
 				</div>
 			</div>
 
@@ -60,7 +64,7 @@
 					<span class="material-icons secondary text" style="font-size: 16pt;">assignment_ind</span>&nbsp;&nbsp;<span class="text secondary" style="font-size: 16pt;">Tasks Posted</span>
 				</div>
 				<div class="user-detail n300">
-					<span class="text secondary dark">{{ sidebar.posted }}</span>
+					<span class="text secondary dark" style="font-size: 14pt;">{{ sidebar.posted }}</span>
 				</div>
 			</div>
 
@@ -70,7 +74,7 @@
 					<span class="material-icons secondary text" style="font-size: 16pt;">assignment_turned_in</span>&nbsp;&nbsp;<span class="text secondary" style="font-size: 16pt;">Tasks Completed</span>
 				</div>
 				<div class="user-detail n300">
-					<span class="text secondary dark">{{ sidebar.completed }}</span>
+					<span class="text secondary dark" style="font-size: 14pt;">{{ sidebar.completed }}</span>
 				</div>
 			</div>
 

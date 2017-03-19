@@ -1,5 +1,7 @@
 app.service('user_svc', ['$http', '$window', function($http, $window){
 
+
+
 	this.current_user = false;
 	this.posted       = 0;
 	this.completed    = 0;
@@ -80,6 +82,8 @@ app.service('user_svc', ['$http', '$window', function($http, $window){
 			if( response.data ){
 				var u = response.data[0];
 				this.current_user = new User(u.ID, u.first_name, u.last_name, u.phone, u.email, u.username, u.balance);
+
+				this.getTaskCounts(this.current_user.id);
 			}
 		}.bind(this));
 	};
@@ -110,13 +114,8 @@ app.service('user_svc', ['$http', '$window', function($http, $window){
 
 				var counts     = response.data;
 
-				var posted     = counts[0]["COUNT(title)"];
-				var completed  = counts[1]["COUNT(title)"];
-
-				this.posted    = posted;
-				this.completed = completed;
-
-				console.log(counts);
+				this.posted    = counts[0].posted;
+				this.completed = counts[1].posted;
 
 			}.bind(this));
 		}

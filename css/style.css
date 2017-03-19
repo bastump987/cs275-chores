@@ -98,15 +98,16 @@
 
 #app-title-area{
 	height: 100%;
-	width: auto;
+	width: 350px;
 	padding-left: 32px;
+	margin-right: 64px;
 
 	display: flex;
 	align-items: center;
 
-	font-size: 42px;
+	float: left;
 
-	background-color: rgba(0,0,0,0.1);
+	font-size: 42px;
 }
 
 
@@ -594,3 +595,17 @@
 	box-sizing: border-box;
 }
 /* USER INFO AREA STYLES END */
+
+
+
+
+/* OPTIONS AREA (HEADER) STYLES */
+#options-area{
+	height: 100%;
+	width: 900px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	float: left;
+}
+/* OPTIONS AREA (HEADER) STYLES END */

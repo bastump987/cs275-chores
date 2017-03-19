@@ -118,11 +118,8 @@ app.post('/taskcounts', function(req, res){
 
 	var id = req.body.id.toString();
 
-	// SELECT COUNT(title) FROM tasks WHERE poster_id=X
-	// SELECT COUNT(title) FROM tasks WHERE worker_id=X
-
-	var query = "SELECT COUNT(title) FROM tasks WHERE poster_id=" + id + " ";
-	query    += "UNION ";
+	var query = "SELECT COUNT(title) AS posted FROM tasks WHERE poster_id=" + id + " ";
+	query    += "UNION ALL ";
 	query    += "SELECT COUNT(title) FROM tasks WHERE worker_id=" + id + " AND status='completed';";
 
 	con.query(query, function(error, rows, fields){

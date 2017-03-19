@@ -1,4 +1,4 @@
-app.controller('sidebar_ctrl', ['$scope', '$interval', 'user_svc', function($scope, $interval, user_svc){
+app.controller('sidebar_ctrl', ['$scope', '$interval', 'user_svc', 'task_svc', function($scope, $interval, user_svc, task_svc){
 
 
 
@@ -10,17 +10,9 @@ app.controller('sidebar_ctrl', ['$scope', '$interval', 'user_svc', function($sco
 	this.completed = 0;
 
 
-	this.refresh = function(){
-		user_svc.refreshUser(user_svc.current_user.id);
-		user_svc.getTaskCounts();
-	};
-
-
 	this.logout = function(){
 		user_svc.logout();
 	};
-
-	$interval(this.refresh, 5000);
 
 
 	$scope.$watch(function(){ return user_svc.current_user; }, function(newValue){
@@ -41,6 +33,13 @@ app.controller('sidebar_ctrl', ['$scope', '$interval', 'user_svc', function($sco
 		}
 
 	}.bind(this));
+
+
+	$scope.$watch(function(){ return task_svc.task_list; }, function(newValue){
+
+		user_svc.getTaskCounts();
+
+	});
 
 
 	$scope.$watch(function(){ return user_svc.posted; }, function(newValue){

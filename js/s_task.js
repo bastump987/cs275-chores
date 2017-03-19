@@ -1,4 +1,4 @@
-app.service('task_svc', ['$http', function($http){
+app.service('task_svc', ['$http', 'user_svc', function($http, user_svc){
 
 	this.task_list = []; // stores results of latest function call
 
@@ -77,7 +77,6 @@ app.service('task_svc', ['$http', function($http){
 
 		var time_str  = this.dateToDBFormat( new Date(time) );
 		var price_num = Number.parseInt( price );
-		console.log(price_num);
 
 		$http({
 			method: 'POST',
@@ -96,6 +95,9 @@ app.service('task_svc', ['$http', function($http){
 			// expects the task on success
 			// expects "false" on failure
 
+			if( response.data !== false ){
+				user_svc.posted++;
+			}
 			callback(response.data);
 
 		});
@@ -144,6 +146,9 @@ app.service('task_svc', ['$http', function($http){
 			// expects true on success
 			// expects false on failure
 
+			if( response.data !== false ){
+				user_svc.posted -= 1;
+			}
 			callback(response.data);
 
 		});

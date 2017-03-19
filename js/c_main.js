@@ -11,11 +11,14 @@ app.controller('main_ctrl', ['$scope', '$window', 'task_svc', 'user_svc', functi
 			head_id = task_svc.task_list[0].id;
 		}
 
+		console.log( user_svc.current_user, head_id );
 		if( user_svc.current_user && head_id !== null ){
 
 			var t = new Task();
+			t.id          = null;
 			t.poster_id   = user_svc.current_user.id;
 			t.poster_name = user_svc.current_user.full_name;
+			t.price       = "";
 			t.timestamp   = new Date();
 
 			task_svc.task_list.unshift(t);

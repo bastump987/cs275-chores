@@ -130,20 +130,25 @@ app.controller('taskCard_ctrl', ['$scope', 'user_svc', 'task_svc', function($sco
 
 			var callback = function(data){
 
-				this.pendingEdit.id = data.insertId;
+				this.pendingEdit.id     = data.insertId;
+				this.pendingEdit.status = 1;
 
-				$scope.task = angular.copy( this.pendingEdit );
+				// update the first task in task_list (this task)
+				task_svc.task_list[0] = angular.copy(this.pendingEdit);
 
 				this.pendingEdit  = {};
 				this.isEditing    = false;
+				this.isActive     = false;
 
 				this.button_text  = "EDIT";
 				this.buttonAction = this.editClick;
 
 			}.bind(this);
 
-			var t  = this.pendingEdit;
+			var t = this.pendingEdit;
 			task_svc.addTask(t.title, t.desc, t.price, t.location, t.time, user_svc.current_user.id, callback);
+		}else{
+			alert("Oops... \n\n All fields must be filled out, and be sure to look at the hints in the input fields for length or formatting requirements.");
 		}
 	};
 
