@@ -92,7 +92,7 @@ app.controller('login_ctrl', ['$scope', '$window', '$timeout', 'user_svc', funct
 
 				if( result ){ // on success, clear inputs and show success message
 
-					this.register_message = "Registration successful!  You can now sign in.";
+					this.register_message = "Registration successful!  Click on the person icon to sign in.";
 					this.clearRgFields();
 
 				}else{ // on failure, show the error message from the server

@@ -185,6 +185,7 @@ app.post('/addtask', function(req,res){
 	con.query(query, function(err, rows, fields){
 		if (err){
 			console.log("Query Failed for add task");
+			console.log(err);
 			res.send(false);
 		}
 		else{
